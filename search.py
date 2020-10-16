@@ -88,12 +88,6 @@ def depthFirstSearch(problem):
     """
     "*** YOUR CODE HERE ***"
 
-    from game import Directions
-    s = Directions.SOUTH
-    w = Directions.WEST
-    e = Directions.EAST
-    n = Directions.NORTH
-
     #get starting position
     start = problem.getStartState()
 
@@ -106,7 +100,7 @@ def depthFirstSearch(problem):
     #so not to visit the same nodes twice
     visited = set()
     
-    test = {}
+    moveDict = {}
 
     #add the start to the stack, and also the path as a tuple
     stack.push((start, [start]))
@@ -135,25 +129,17 @@ def depthFirstSearch(problem):
                 stack.push((child[0], node[1] + [child[0]]))
                 #print(node[1] + [child[0]])
                 #update dictionary with directions
-                test[child[0]] = child[1]
-
-    print(path)
+                moveDict[child[0]] = child[1]
 
     #create the path from the dictionary
     for co in path:
-        move_path.append(test[co])
+        move_path.append(moveDict[co])
 
     return move_path
 
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
-
-    from game import Directions
-    s = Directions.SOUTH
-    w = Directions.WEST
-    e = Directions.EAST
-    n = Directions.NORTH
 
     #get starting position
     start = problem.getStartState()
@@ -163,22 +149,22 @@ def breadthFirstSearch(problem):
     #path of moves
     move_path = []
     #stack
-    stack = util.Queue()
+    queue = util.Queue()
     #so not to visit the same nodes twice
     visited = set()
-    
-    test = {};
+    #dictionary (coordinate : move)
+    moveDict = {};
 
-    #add the start to the stack, and also the path as a tuple
-    stack.push((start, [start]))
+    #add the start to the queue, and also the path as a tuple
+    queue.push((start, [start]))
     #mark it as visited
     visited.add(start)
 
     #perform the search
-    while(stack.isEmpty() == False):
+    while(queue.isEmpty() == False):
 
         #remove top from stack
-        node = stack.pop()
+        node = queue.pop()
 
         #check if it's the goal
         if(problem.isGoalState(node[0]) == True):
@@ -191,22 +177,71 @@ def breadthFirstSearch(problem):
         for child in problem.getSuccessors(node[0]):
             if(child[0] not in visited):
                 #add child, with according path to specific child
-                stack.push((child[0], node[1] + [child[0]]))
+                queue.push((child[0], node[1] + [child[0]]))
                 #print(node[1] + [child[0]])
                 visited.add(child[0])
                 #update dictionary with directions
-                test[child[0]] = child[1]
+                moveDict[child[0]] = child[1]
 
     #create the path from the dictionary
     for co in path:
-        move_path.append(test[co])
+        move_path.append(moveDict[co])
 
     return move_path
 
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+
+    #same code as before only this time we use the priorityQueue
+    #get starting position
+    start = problem.getStartState()
+
+    #path of coordinates
+    path = set()
+    #stack
+    priority = util.PriorityQueue()
+    #so not to visit the same nodes twice
+    visited = set()
+
+    #add the start to the priorityQueue,and also the path as a tuple
+    #it's priority is meaningless
+    priority.push((start, [], 0), 0)
+    #mark it as visited
+    #visited.add(start)    
+
+    #perform the search
+    while(priority.isEmpty() == False):
+
+        #remove smallest element from the queue
+        node = priority.pop()
+
+        #fix visited order
+        if(node[0] not in visited):
+            visited.add(node[0])
+        else:
+            continue
+
+        #check if it's the goal
+        if(problem.isGoalState(node[0]) == True):
+            #if it is save the goal path
+            path = node[1]
+            #exit the loop
+            break
+
+        #add the children to the priorityQueue
+        for child in problem.getSuccessors(node[0]):
+            if(child[0] not in visited):
+                #calculate piority
+                pr = child[2] + node[2]
+                #add child, with according path to specific child
+                #if it is already there with higher priority, update it
+                #update does the work for us so no change is
+                priority.update((child[0], node[1] + [child[1]], pr), pr)                
+
+
+    #return the path
+    return path
 
 def nullHeuristic(state, problem=None):
     """
