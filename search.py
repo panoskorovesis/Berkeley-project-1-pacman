@@ -96,31 +96,30 @@ def depthFirstSearch(problem):
 
     #get starting position
     start = problem.getStartState()
-    print(start)
 
     #path of coordinates
-    path = []
+    path = set()
     #path of moves
     move_path = []
     #stack
     stack = util.Stack()
     #so not to visit the same nodes twice
-    visited = []
+    visited = set()
     
-    test = {};
+    test = {}
 
     #add the start to the stack, and also the path as a tuple
     stack.push((start, [start]))
     #mark it as visited
-    visited.append(start)
+    visited.add(start)
 
     #perform the search
     while(stack.isEmpty() == False):
 
         #remove top from stack
         node = stack.pop()
-
-        visited.append(node[0])
+        #add it as visited
+        visited.add(node[0])
 
         #check if it's the goal
         if(problem.isGoalState(node[0]) == True):
@@ -158,23 +157,22 @@ def breadthFirstSearch(problem):
 
     #get starting position
     start = problem.getStartState()
-    print(start)
 
     #path of coordinates
-    path = []
+    path = set()
     #path of moves
     move_path = []
     #stack
     stack = util.Queue()
     #so not to visit the same nodes twice
-    visited = []
+    visited = set()
     
     test = {};
 
     #add the start to the stack, and also the path as a tuple
     stack.push((start, [start]))
     #mark it as visited
-    visited.append(start)
+    visited.add(start)
 
     #perform the search
     while(stack.isEmpty() == False):
@@ -195,7 +193,7 @@ def breadthFirstSearch(problem):
                 #add child, with according path to specific child
                 stack.push((child[0], node[1] + [child[0]]))
                 #print(node[1] + [child[0]])
-                visited.append(child[0])
+                visited.add(child[0])
                 #update dictionary with directions
                 test[child[0]] = child[1]
 
