@@ -287,40 +287,22 @@ class CornersProblem(search.SearchProblem):
         self._expanded = 0 # DO NOT CHANGE; Number of search nodes expanded
         # Please add any code here which you would like to use
         # in initializing the problem
-
-        #target dictionary (0 -> not yet, 1-> success)
-        #goes together with corner list
-        self.targets = {}
-        #fill the dictionary
-        for cor in self.corners:
-            self.targets[cor] = 0
-
-        for corner in self.corners:
-            #if a corner is empty, update it as success
-            if( not startingGameState.hasFood(*corner)):
-                self.targets[corner] = 1 
+        "*** YOUR CODE HERE ***"
 
     def getStartState(self):
         """
         Returns the start state (in your state space, not the full Pacman state
         space)
         """
-        
-        #try starting from a corner with food
-        return self.corners[0]
+        "*** YOUR CODE HERE ***"
+        util.raiseNotDefined()
 
     def isGoalState(self, state):
         """
         Returns whether this search state is a goal state of the problem.
         """
-
-        #update the current corner as finished
-        if(state in self.targets):
-            self.targets[state] = 1
-        
-        #True is it's finished
-        #if there is a 0 in the dictionary we are not finished
-        return 0 not in self.targets.values() 
+        "*** YOUR CODE HERE ***"
+        util.raiseNotDefined()
 
     def getSuccessors(self, state):
         """
@@ -337,21 +319,12 @@ class CornersProblem(search.SearchProblem):
         for action in [Directions.NORTH, Directions.SOUTH, Directions.EAST, Directions.WEST]:
             # Add a successor state to the successor list if the action is legal
             # Here's a code snippet for figuring out whether a new position hits a wall:
-            x,y = state
-            dx, dy = Actions.directionToVector(action)
-            nextx, nexty = int(x + dx), int(y + dy)
-            
-            #convert it to list to get lenght
-            gList = self.walls.asList()
+            #   x,y = currentPosition
+            #   dx, dy = Actions.directionToVector(action)
+            #   nextx, nexty = int(x + dx), int(y + dy)
+            #   hitsWall = self.walls[nextx][nexty]
 
-            if(len(gList) <= nextx + nexty):
-                hitsWall = self.walls[nextx][nexty]
-
-                '''
-                if it does not hit a wall add it to a list as a tuple
-                containing (coordinates, Direction, Cost)
-                '''
-                successors.append( ((nextx, nexty), action, 1) )
+            "*** YOUR CODE HERE ***"
 
         self._expanded += 1 # DO NOT CHANGE
         return successors
@@ -386,7 +359,7 @@ def cornersHeuristic(state, problem):
     corners = problem.corners # These are the corner coordinates
     walls = problem.walls # These are the walls of the maze, as a Grid (game.py)
 
-
+    "*** YOUR CODE HERE ***"
     return 0 # Default to trivial solution
 
 class AStarCornersAgent(SearchAgent):
