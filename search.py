@@ -237,7 +237,7 @@ def uniformCostSearch(problem):
                 #add child, with according path to specific child
                 #if it is already there with higher priority, update it
                 #update does the work for us so no change is
-                priority.update((child[0], node[1] + [child[1]], pr), pr)                
+                priority.push((child[0], node[1] + [child[1]], pr), pr)                
 
 
     #return the path
@@ -253,7 +253,67 @@ def nullHeuristic(state, problem=None):
 def aStarSearch(problem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first."""
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+
+    #same code as before only this time we use the priorityQueue
+    #get starting position
+    start = problem.getStartState()
+
+    #path of coordinates
+    path = set()
+    #stack
+    priority = util.PriorityQueue()
+    #so not to visit the same nodes twice
+    visited = set()
+
+    costs = {}
+
+    #add the start to the priorityQueue,and also the path as a tuple
+    #it's priority is meaningless
+    manhattan = heuristic(start, problem)
+    priority.push((start, [], manhattan), manhattan)
+
+    #update dictionaries
+    costs[start] = 0
+
+    #perform the search
+    while(priority.isEmpty() == False):
+
+        #remove smallest element from the queue
+        node = priority.pop()
+
+        #fix visited order
+        if(node[0] not in visited):
+            visited.add(node[0])
+
+            #check if it's the goal
+            if(problem.isGoalState(node[0]) == True):
+                #if it is save the goal path
+                path = node[1]
+                #exit the loop
+                break
+
+            #add the children to the priorityQueue
+            for child in problem.getSuccessors(node[0]):
+                #find the new cost (previus + new)
+                new_cost = costs[node[0]] + child[2]
+                
+                #if there is already a cost, by the new one is higher we must update
+                if(child[0] not in visited or new_cost < costs[child[0]]):
+                    #calculate piority
+                    manhattan = (heuristic(child[0], problem))
+                    #update dictionary
+                    costs[child[0]] = new_cost
+                    #find priority, depending on heuristic function
+                    if(heuristic == nullHeuristic):
+                        pr = node[2] + child[2]
+                    else:
+                        pr = manhattan + new_cost
+
+                    #add child, with according path to specific child
+                    priority.push((child[0], node[1] + [child[1]], pr), pr)
+
+    return path
+
 
 
 # Abbreviations
