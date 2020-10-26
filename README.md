@@ -2,6 +2,6 @@
 
 ## Version 
 
-from 19 October
+from 26 October
 
 ---
