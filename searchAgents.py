@@ -409,7 +409,42 @@ def cornersHeuristic(state, problem):
     corners = problem.corners # These are the corner coordinates
     walls = problem.walls # These are the walls of the maze, as a Grid (game.py)
 
-    return 0 # Default to trivial solution
+    """
+    Heuristc logic:
+        See which corners are not visited
+        Calculate the manhattan disctance for each corner
+        Add the distances to a list and sort it
+        Return the minimum distance from the list
+        If the list-length is 0, we have reahed a goal
+    """
+
+    pos = state[0]
+    cornersDict = dict(state[1])
+    distanceSet = set()
+
+    #print(cornersDict)
+    #calculate euclidean distance from pos to corner
+    for key in cornersDict.keys():
+
+        #if we havent visited a corner
+        if(cornersDict[key] == 0):
+
+            #set the goal
+            problem.goal = key
+            distanceSet.add(manhattanHeuristic(pos, problem))
+
+    #sort the set by smallest value
+    distanceSet = sorted(distanceSet)
+
+    #return the smallest value from the set head
+    if len(distanceSet) == 0:
+        return 0
+    
+    #if the length is zero
+    #it means all corners are visited
+    #it is a goal state so return the trivial number
+    else:
+        return distanceSet.pop()
 
 class AStarCornersAgent(SearchAgent):
     "A SearchAgent for FoodSearchProblem using A* and your foodHeuristic"
@@ -502,8 +537,41 @@ def foodHeuristic(state, problem):
     problem.heuristicInfo['wallCount']
     """
     position, foodGrid = state
-    "*** YOUR CODE HERE ***"
-    return 0
+    #convert grid to list
+    foodList = foodGrid.asList()
+    #distance set
+    distanceSet = set()
+
+    #calculate manhattan distances for all the foods
+    pos = state[0]
+
+    #calculate the real distance for all the foods ONLY the first time
+    #and add it to the dictionary 
+    if len(problem.heuristicInfo.keys()) == 0:
+        for food in foodList:
+            problem.heuristicInfo[food] = mazeDistance(pos, food, problem.startingGameState)
+    
+
+    for key in foodList:
+        #set the goal
+        problem.goal = key
+        #calculate the distance and add to set, along with the key
+        distanceSet.add(manhattanHeuristic(pos, problem))
+            
+    #sort the set by smallest value
+    distanceSet = sorted(distanceSet)
+
+    #if the length is zero
+    #it means all corners are visited
+    #it is a goal state so return the trivial number
+    if len(distanceSet) == 0:
+        return 0
+    #return the smallest value from the set head
+    else:
+        #remove the min
+        value = distanceSet.pop()
+        #return the min
+        return value
 
 class ClosestDotSearchAgent(SearchAgent):
     "Search for all food using a sequence of searches"
