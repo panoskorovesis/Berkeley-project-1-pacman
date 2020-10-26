@@ -235,9 +235,8 @@ def uniformCostSearch(problem):
                 #calculate piority
                 pr = child[2] + node[2]
                 #add child, with according path to specific child
-                #if it is already there with higher priority, update it
-                #update does the work for us so no change is
-                priority.push((child[0], node[1] + [child[1]], pr), pr)                
+                #if its already in the queue and needs update, update it
+                priority.update((child[0], node[1] + [child[1]], pr), pr)
 
 
     #return the path
