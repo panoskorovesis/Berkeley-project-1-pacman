@@ -602,7 +602,34 @@ class ClosestDotSearchAgent(SearchAgent):
         problem = AnyFoodSearchProblem(gameState)
 
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+
+        #find the closest food using manhattan distance
+
+        #distance dictionary
+        distances = {}
+
+        #convert grid to list
+        food = food.asList()
+
+        for f in food:
+            #set the goal
+            problem.goal = f
+            #calculate the distance and add to set, along with the key
+            distances[f] = (manhattanHeuristic(startPosition, problem))
+
+        #sort the dictionary
+        distances = sorted(distances.items(), key = lambda kv:(kv[1], kv[0]))
+
+        #get the coordinates of the nearest food
+        #its in position 1
+        coo = distances[0][0]
+        print(coo)
+
+        from search import aStarSearch
+
+        problem.goal = coo
+        return aStarSearch(problem)
+        
 
 class AnyFoodSearchProblem(PositionSearchProblem):
     """
@@ -637,8 +664,17 @@ class AnyFoodSearchProblem(PositionSearchProblem):
         """
         x,y = state
 
-        "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        #it is for finding a path to any food
+        #its a goal state if the state has food
+        #a simple check is required
+        foodList = self.food.asList()
+
+        #if you are in a food location
+        if(state in foodList):
+            return True
+        #havent reached a goal yet
+        else:
+            return False
 
 def mazeDistance(point1, point2, gameState):
     """
