@@ -296,7 +296,7 @@ def aStarSearch(problem, heuristic=nullHeuristic):
                 #find the new cost (previus + new)
                 new_cost = costs[node[0]] + child[2]
                 
-                #if there is already a cost, by the new one is higher we must update
+                #if there is already a cost, by the new one is lower we must re-insert
                 if(child[0] not in visited or new_cost < costs[child[0]]):
                     #calculate piority
                     manhattan = (heuristic(child[0], problem))
