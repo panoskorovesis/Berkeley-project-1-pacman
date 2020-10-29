@@ -414,7 +414,7 @@ def cornersHeuristic(state, problem):
         See which corners are not visited
         Calculate the manhattan disctance for each corner
         Add the distances to a list and sort it
-        Return the minimum distance from the list
+        Return the max distance from the list
         If the list-length is 0, we have reahed a goal
     """
 
@@ -436,14 +436,14 @@ def cornersHeuristic(state, problem):
     #sort the set by smallest value
     distanceSet = sorted(distanceSet)
 
-    #return the smallest value from the set head
-    if len(distanceSet) == 0:
-        return 0
-    
     #if the length is zero
     #it means all corners are visited
     #it is a goal state so return the trivial number
+    if len(distanceSet) == 0:
+        return 0
+    #return the biggest value from the tail
     else:
+        #pop the largest number from the tail
         return distanceSet.pop()
 
 class AStarCornersAgent(SearchAgent):
@@ -566,11 +566,11 @@ def foodHeuristic(state, problem):
     #it is a goal state so return the trivial number
     if len(distanceSet) == 0:
         return 0
-    #return the smallest value from the set head
+    #return the biggest value from the set tail
     else:
-        #remove the min
+        #remove the max
         value = distanceSet.pop()
-        #return the min
+        #return it
         return value
 
 class ClosestDotSearchAgent(SearchAgent):
