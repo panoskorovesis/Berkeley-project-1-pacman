@@ -1,7 +1,7 @@
-# Pacman 1
+# Berkeley's Project 1
 
-## Version 
+This project is the first part of UC Berkeley's introductory artificial intelligence course.
 
-from 26 October
+Several AI search techniques are applied to the Pac-Man game.
 
 ---
