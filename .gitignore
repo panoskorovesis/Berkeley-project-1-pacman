@@ -1,0 +1,5 @@
+#ignore all files ending with .pyc
+*.pyc
+
+#ignore vscode files
+.vscode
