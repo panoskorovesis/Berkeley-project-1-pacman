@@ -545,13 +545,7 @@ def foodHeuristic(state, problem):
     #calculate manhattan distances for all the foods
     pos = state[0]
 
-    #calculate the real distance for all the foods ONLY the first time
-    #and add it to the dictionary 
-    if len(problem.heuristicInfo.keys()) == 0:
-        for food in foodList:
-            problem.heuristicInfo[food] = mazeDistance(pos, food, problem.startingGameState)
-    
-
+    #for each dot it the grid
     for key in foodList:
         #set the goal
         problem.goal = key
