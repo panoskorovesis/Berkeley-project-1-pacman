@@ -8,6 +8,10 @@ Several AI search techniques are applied to the Pac-Man game.
 
 ## Cloning
 
-type `git clone https://github.com/panoskorovesis/Berkeley-project-1-pacman.git` at your terminal
+type 
+
+    `git clone https://github.com/panoskorovesis/Berkeley-project-1-pacman.git` 
+  
+at your terminal
 
 ---
