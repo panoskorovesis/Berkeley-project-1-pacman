@@ -6,6 +6,11 @@ This project is the first part of UC Berkeley's introductory artificial intellig
 
 Several AI search techniques are applied to the Pac-Man game.
 
+Changes were made to the files:
+
+1) searchAgents.py
+2) search.py
+
 ## Cloning
 
 type 
